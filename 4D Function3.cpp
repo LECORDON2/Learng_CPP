@@ -8,7 +8,7 @@ int Factorial(int _iNum)
 
 	int iValue = 1;
 
-	for (int j = 0; j < int _iNum; ++j)
+	for (int j = 0; j < int _iNum -1; ++j)
 	{
 		iValue *= (j + 2);
 	}
@@ -24,7 +24,7 @@ int main()
 	int i = 4;
 	int iValue = 1;
 
-	for (int j = 0; j < i; ++j)
+	for (int j = 0; j < i - 1; ++j)
 	{
 		iValue *= (j + 2);
 	}

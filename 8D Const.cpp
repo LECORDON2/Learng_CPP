@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void Test(int* a)
+
+int main()
 {
 
 

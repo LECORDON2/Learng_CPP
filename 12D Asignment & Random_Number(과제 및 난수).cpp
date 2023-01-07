@@ -40,7 +40,7 @@ int main()
 
 
 
-
+	// 내가 만든 정렬 
 	DAryST MyArry = {};
 
 	InitDArry(&MyArry);
@@ -90,9 +90,10 @@ void InitDArry(DAryST* _DArry);
 
 void PushBack(DAryST* _DArry, int _iData);
 
+// 내가 만든 정렬 함수
 void SortDA(DAryST* _Darry);
 
-// 데이터 정렬함수
+// 선생님이 만든 데이터 정렬 함수
 void Sort(DAryST* _DArry);
 
 void ReleaseDA(DAryST* _DArry);
@@ -174,7 +175,7 @@ void Sort(DAryST* _DArry)
 				bFunish = false;
 			}
 		}
-		if (bFunish)
+		if (bFunish)        // 배열의 숫자 중 둘을 비교했을 때 하나라도 내림차순으로 되어 있다면 위의 if 문의 bFunish = false; 때문에 while문은 break 되지 않는다.
 		{
 			break;
 		}
@@ -187,4 +188,3 @@ void ReleaseDA(DAryST* _DArry)
 	_DArry->iCount = 0;
 	_DArry->iMaxcount = 0;
 }
-

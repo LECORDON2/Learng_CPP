@@ -12,7 +12,7 @@ private:
 	int m_iCount;
 	int m_iMaxCount;
 public:
-	void push_back(const T& _Data);
+	void push_back(const T& _Data);      // 클래스로 만들었기 때문에 데이터 단위가 커질수 있으므로 원본은 수정하지 않되 참조를 받는 형식으로
 	void resize(int _iResizeCount);
 
 	T& operator[] (int idx);
@@ -28,7 +28,7 @@ template<typename T>
 CArr<T>::CArr()                        // CArr안의 클래스의 T버전 안에 구현된 생성자를 지칭하는 것
 	: m_pInt(nullptr)
 	, m_iCount(0)
-	, m_iMaxCount(0)
+	, m_iMaxCount(2)
 {
 	m_pInt = new T[2];          
 }

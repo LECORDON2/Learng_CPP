@@ -69,7 +69,7 @@ int main()
 
 
 	// C printf 대체
-	std::cout << "안녕" << 10 << std::endl;   // << 은 연산자 오버로딩, 자기자신을 호출하여 연속으로 연산 가능?
+	std::cout << "안녕" << 10 << std::endl;   // << 은 연산자 오버로딩, 자기자신을 호출하여 연속으로 연산 가능
 
 	// C scanf 대체
 	int iInput = 0;

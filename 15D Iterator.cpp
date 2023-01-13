@@ -77,7 +77,71 @@ int main()
 	// 겉으로 보기에는 대입 연산자 처럼 보이지만 
 	// 객체가 만들어질 때 t3가 기본 생성자를 호출하고 대입받는 것
 	// 이러한 경우에는 컴파일러가 알아서 복사생성자로 처리한다.
-	// 출제율 높음
+	
+	std::vector<int> vecint;
+	vecint.push_back(1);
+	vecint.push_back(2);
+	vecint.push_back(3);
+	vecint.push_back(4);
+
+	std::vector<int>::iterator veciter = vecint.begin();
+	vecint.erase(veciter); // 맨앞을 지우면 아으로 안칸씩 땡겨진다고 나온다.
+	int i = *veciter;      // 이렇게 하면 오류가난다.
+
+	veciter = vecint.erase(veciter); // 이처럼 삭제시키고 다시 그 다음값을 받아와야 한다.
+	int i = *veciter; // 오류가 나지 않는다.
+
+
+	vecint.clear(); // claer는 모든 데이터를 날려버림
+
+	// 1 ~ 10을 벡터에 입력
+	// 여기서 i < 10으로 넣어버리면
+	// 마지막에 end iterator에서 증가가 추가로 되어 터져버린다.
+	for (int i = 0; i < 11; ++i)
+	{
+		vecint.push_back(i + 1);
+	}
+
+	// 짝수만 제거
+	veciter = vecint.begin();
+	for (; veciter != vecint.end(); ++veciter)
+	{
+		if (*veciter % 2 == 0)
+		{
+			// 제거 
+			// vecint.erase(veciter); // 그러나 iterator는 더이상 쓸수 없는 것, 
+			                          // 가리키는 곳을 제거 함
+			veciter = vecint.erase(veciter); // 이렇게 해야함
+		}
+	}
+
+	// 1 ~ 5 만 제거
+	// 이렇게 하면 2와 4가 남아있다.
+	// 1을 제거하고 2를 되돌려 받았는데 삭제하는 과정에서 다음을 가리키게 되어서
+	// 사실상 두번 증가하게되는 경우가 생겨버린다.
+	veciter = vecint.begin();
+	for (; veciter != vecint.end(); ++veciter)
+	{
+		if (1 <= *veciter && *veciter <= 5)
+		{
+			veciter = vecint.erase(veciter); 
+		}
+	} 
+
+	// 그래서 ++을 매번 하는 것이 아니라 if에 걸리지 않았을 경우에만 하는 것으로 바꾼다.
+	veciter = vecint.begin();
+	for (; veciter != vecint.end(); )
+	{
+		if (1 <= *veciter && *veciter <= 5)
+		{
+			veciter = vecint.erase(veciter);
+		}
+		else
+		{
+			++veciter;
+		}
+	}
+
 
 
 	return 0;
@@ -108,6 +172,13 @@ public:
 	class iterator;    // begin()이 iterator를 모르기 때문에 전방선안한다. 
 	iterator begin();  // iterator를 반환 받는다.
 	iterator end();
+	iterator earse(iterator& _iter);
+
+	void clear()
+	{
+		da_iCount = 0;
+	}
+	
 
 
 public:
@@ -131,13 +202,16 @@ public:
 		// 가리키는 데이터의 인덱스
 		// 인덱스가 -1이면 end iterator(스스로 정하는 것)
 		int m_iIdx;
+		
+		// iterator의 유효성 체크
+		bool m_bValid;
 
 	public:
 		T& operator * ()
 		{
 			// iterator가 알고 있는 주소와, 가변 배열이 알고 잇는 주소가 달라진 경우(공간 확장으로 주소가 달라진 경우)
 			// iteraotr가 end iterator 인 경우
-			if (m_pArr->da_pInt != m_pData || -1 == m_iIdx)
+			if (m_pArr->da_pInt != m_pData || -1 == m_iIdx || m_bValid == false;)
 			{
 				assert(nullptr);
 			}
@@ -240,6 +314,7 @@ public:
 			: m_pArr(nullptr)
 			, m_pData(__nullptr)
 			, m_iIdx(-1)
+			, m_bValid(false)
 
 		{
 			// _pArr->da_iMaxCount 이런식으로 inner class 안에서 접근이 가능하다.
@@ -249,8 +324,12 @@ public:
 			: m_pArr(_pArr)
 			, m_pData(_pData)
 			, m_iIdx(_iIdx)
+			, m_bValid(false)
 		{
-
+			if (_pArr != nullptr && m_iIdx >= 0)
+			{
+				m_bValid = true;
+			}
 		}
 
 		~iterator()
@@ -325,4 +404,35 @@ typename Darry<T>::iterator Darry<T>::end()
 {
 	// 끝의 다음을 가리키는 iterator를 만들어서 반환해줌
 	return iterator(this, da_pInt, -1);  // this는 가변배열의 주소, da_pInt = this->da_pInt
+}
+
+template<typename T>
+typename Darry<T>::iterator Darry<T>::earse(iterator& _iter)
+{
+	// _iter는 내부 private 이므로 가변배열 클래스에서는 접근할 수 없다.
+	// iterator에서 Darry를 friend 선언을 하면 접근 가능하다. 
+	// 어느쪽에서 friend를 선언해야 접근 할 수 있는지 헷갈리면 안된다.
+	
+	// iterator가 다른 Darry 쪽 요소를 가리키는 경우
+	// iterator가 end iterator 인 경우
+	if (this != _iter.m_pData || end() == _iter || _iter.m_idx >= da_iCount)
+	{
+		assert(nullptr);
+	}
+
+	// iterator가 가리키는 데이터를 배열 내에서 제거한다.
+	int iLoopCount = da_iCount - (_iter.m_idx + 1);
+
+	for (int i = 0; i < iLoopCount; ++i)
+	{
+		m_pData[i + _iter.m_iIdx] = m_pData[i + _iter.m_iIdx + 1]
+	}
+
+	// 되돌려 받아야 되게 만드는 유효성 체크
+	_iter.m_bValid = false;
+
+	// 카운트 감소
+	--da_iCount;
+
+	return iterator(this, m_pData, _iter.m_iIdx);
 }

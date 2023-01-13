@@ -415,13 +415,13 @@ typename Darry<T>::iterator Darry<T>::earse(iterator& _iter)
 	
 	// iterator가 다른 Darry 쪽 요소를 가리키는 경우
 	// iterator가 end iterator 인 경우
-	if (this != _iter.m_pData || end() == _iter || _iter.m_idx >= da_iCount)
+	if (this->da_pInt != _iter.m_pData || end() == _iter || _iter.m_iIdx >= da_iCount)
 	{
 		assert(nullptr);
 	}
 
 	// iterator가 가리키는 데이터를 배열 내에서 제거한다.
-	int iLoopCount = da_iCount - (_iter.m_idx + 1);
+	int iLoopCount = da_iCount - (_iter.m_iIdx + 1);
 
 	for (int i = 0; i < iLoopCount; ++i)
 	{

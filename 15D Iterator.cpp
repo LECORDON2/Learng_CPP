@@ -211,7 +211,7 @@ public:
 		{
 			// iterator가 알고 있는 주소와, 가변 배열이 알고 잇는 주소가 달라진 경우(공간 확장으로 주소가 달라진 경우)
 			// iteraotr가 end iterator 인 경우
-			if (m_pArr->da_pInt != m_pData || -1 == m_iIdx || m_bValid == false;)
+			if (m_pArr->da_pInt != m_pData || -1 == m_iIdx || m_bValid == false)
 			{
 				assert(nullptr);
 			}
@@ -425,7 +425,7 @@ typename Darry<T>::iterator Darry<T>::earse(iterator& _iter)
 
 	for (int i = 0; i < iLoopCount; ++i)
 	{
-		m_pData[i + _iter.m_iIdx] = m_pData[i + _iter.m_iIdx + 1]
+		m_pData[i + _iter.m_iIdx] = m_pData[i + _iter.m_iIdx + 1];
 	}
 
 	// 되돌려 받아야 되게 만드는 유효성 체크

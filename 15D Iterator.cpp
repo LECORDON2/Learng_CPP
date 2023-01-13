@@ -181,12 +181,35 @@ public:
 			// 증가하기 이전의 복사본을 반환
 			return copy_iter; 
 		}
-
-		// --전위, 후위 직접 구현
-
+				
 		iterator& operator --()
 		{
+			// 현재의 인덱스가 가리키는 곳이 첫번째 일 경우와 iterator가 알고 있느 주소와 현재의 주소가 다를 경우
+			if (m_pArr->da_pInt != m_pData || m_iIdx == 0)
+			{
+				assert(nullptr);
+			}
+			
+			if(m_iIdx == -1)
+			{
+				// end iterator일 경우(마지막 인덱스가 되어야 함, -하면 안됨, 맨 마지막 즉 da_Count - 1 가 되어야함)
+				m_iIdx = m_pArr->da_iCount - 1;
+			}
+			else
+			{
+				--m_iIdx;
+			}
+			
 			return *this;
+		}
+
+		iterator operator --(int)
+		{
+			iterator copy_iter = *this;
+
+			--(*this);
+
+			return copy_iter;
 		}
 
 		// 비교 연산자 ==, !=

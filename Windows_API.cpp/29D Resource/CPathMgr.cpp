@@ -30,6 +30,7 @@ void CPathMgr::init()
 	wcscat_s(m_szContentPath, 255, L"\\bin\\content\\");
 
 	// + bin\\content\\
+	// 그냥 GetCurrentDirectory(255, m_szContentPath); 를 쓸 
 	// 프로젝트 경로가 나오게 된다.
 	// 속성 -> 디버깅 에서 작업 디렉토리를 바꾸어 주면 된다.
 	// SetWindowText(CCore::Getinst()->GetMainHwnd(), m_szContentPath);

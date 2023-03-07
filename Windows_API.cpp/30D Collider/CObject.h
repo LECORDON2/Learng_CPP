@@ -24,7 +24,7 @@ public:
 
 public:
 	virtual void update() = 0;
-	virtual void finalupdate() final; // 자식에서 오버라이딩을 막아주는 키워드;
+	virtual void finalupdate() final; 
 	virtual void render(HDC _dc);
 
 	void component_render(HDC _dc);

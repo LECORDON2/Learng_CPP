@@ -55,27 +55,17 @@ void CPlayer::update()
 
 void CPlayer::render(HDC _dc)
 {
-	// 입력 될 때는 음수가 될 수 있으므로 UINT -> int로 캐스팅
 	int iWidth = (int)m_pTex->Width();
 	int iHeight = (int)m_pTex->Height();
 
 	Vec2 vPos = GetPos();
 
-	// 계산은 실수로 정확하게 하고 출력할 때는 정수로 전달한다.
-
-	//BitBlt(_dc, (int)(vPos.x - (float)(iWidth / 2))
-	//	, (int)(vPos.y - (float)(iHeight / 2))
-	//	, iWidth, iHeight
-	//	, m_pTex->GetDC()
-	//	, 0, 0, SRCCOPY);
-
-	// 투명처리, 인자로 길이값도 요구(0, 0 이후) windows.h안에서 참조하고 있으므로 함수의 원형을 알고 있으나 실제 구현 부분은 없다.
 	TransparentBlt(_dc, int(vPos.x - (float)(iWidth / 2))
 		, int(vPos.y - (float)(iHeight / 2))
 		, iWidth, iHeight
 		, m_pTex->GetDC()
 		, 0, 0, iWidth, iHeight
-	    , RGB(255, 0 , 255)); // 투명 처리할 RGB값
+	    , RGB(255, 0 , 255)); 
 
 	// 컴포넌트(충돌체, etc...) 가 있는 경우 렌더
 	component_render(_dc);

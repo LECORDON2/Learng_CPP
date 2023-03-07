@@ -25,6 +25,9 @@ public:
 	{
 		m_arrObj[(UINT)_eType].push_back(_pObj);
 	}
+
+	// 임시객체가 아니라 원본을 받기위해 reference, 그리고 수정할 수 없게 하기위해 const
+	const vector<CObject*>& GetGroupObject(GROUP_TYPE _eType) { return m_arrObj[(UINT)_eType]; }
 	
 public:
 	CScene();

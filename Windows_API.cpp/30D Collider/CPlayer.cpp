@@ -16,7 +16,8 @@ CPlayer::CPlayer()
 	m_pTex = CResMgr::Getinst()->LoadTexture(L"PlaterTex", L"texture\\snake.bmp");
 
 	CreateCollider();
-	GetCollider()->SetScale(Vec2(100.f, 100.f));
+	GetCollider()->SetOffsetPos(Vec2(0.f, 0.f));
+	GetCollider()->SetScale(Vec2(25.f, 25.f));
 }
 
 CPlayer::~CPlayer()
@@ -94,3 +95,4 @@ void CPlayer::CreateMissile()
 	CScene* pCurscene = CSceneMgr::Getinst()->GetCurScene();
 	pCurscene->AddObject(pMissile, GROUP_TYPE::DEFAULT);
 }
+
